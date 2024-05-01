@@ -1,0 +1,45 @@
+.container {
+    height: 100vh;
+}
+
+.login-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.login-margin-top{
+    margin-top: 8vw;
+}
+
+.signup-link a {
+    color: #007bff; /* Blue color for the link */
+    text-decoration: none;
+    font-weight: bold; /* Make the text bold */
+}
+
+.signup-link a:hover {
+    text-decoration: underline; /* Underline the link on hover */
+}
+
+.ars-color{
+    color:lightslategray;
+}
+
+.signup-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+.signup-margin-top-bottom{
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+

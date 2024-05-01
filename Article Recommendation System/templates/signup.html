@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+        integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="container d-flex align-items-center justify-content-center h-100 signup-margin-top-bottom">
+        <div class="signup-container">
+            <h2 class="text-center mb-5 mt-3 ars-color">ARS</h2>
+            <form id="login-form">
+                <div class="form-group mb-3">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surname" name="surname" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="birth-date">Birth Date:</label>
+                    <input type="date" id="birth-date" name="birth-date" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="education-level">Education Level:</label>
+                    <select id="education-level" name="education-level" class="form-control" required>
+                        <option value="">Select Education Level</option>
+                        <option value="high-school">High School</option>
+                        <option value="undergraduate">Undergraduate</option>
+                        <option value="graduate">Graduate</option>
+                        <option value="postgraduate">Postgraduate</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Academic Interest(s):</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="science" value="science">
+                        <label class="form-check-label" for="science">Science</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="technology" value="technology">
+                        <label class="form-check-label" for="technology">Technology</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="engineering" value="engineering">
+                        <label class="form-check-label" for="engineering">Engineering</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="mathematics" value="mathematics">
+                        <label class="form-check-label" for="mathematics">Mathematics</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="medicine" value="medicine">
+                        <label class="form-check-label" for="medicine">Medicine</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="academic-interest[]" id="arts" value="arts">
+                        <label class="form-check-label" for="arts">Arts</label>
+                    </div>
+                    <!-- Add more checkboxes for additional academic interests -->
+                </div>
+                <div class="form-group mb-3">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password-again">Password Again:</label>
+                    <input type="password" id="password-again" name="password-again" class="form-control" required>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-outline-primary btn-block">Sign Up</button>
+                </div>
+            </form>
+            <p id="error-message" class="error-message"></p>
+            
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
