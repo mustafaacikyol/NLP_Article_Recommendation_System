@@ -18,7 +18,8 @@
     <div class="container d-flex align-items-center justify-content-center h-100 signup-margin-top-bottom">
         <div class="signup-container">
             <h2 class="text-center mb-5 mt-3 ars-color">ARS</h2>
-            <form id="login-form">
+            <p id="error-message" class="error-message text-warning">{{ feedback }}</p>
+            <form id="signup-form" action="./signup" method="POST">
                 <div class="form-group mb-3">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" class="form-control" required>
@@ -93,10 +94,26 @@
                     <button type="submit" class="btn btn-outline-primary btn-block">Sign Up</button>
                 </div>
             </form>
-            <p id="error-message" class="error-message"></p>
             
         </div>
     </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            var checkboxes = document.querySelectorAll('input[name="academic-interest[]"]');
+            var checked = false;
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checked = true;
+                    break;
+                }
+            }
+            if (!checked) {
+                event.preventDefault(); // Prevent form submission
+                alert("Please select at least one academic interest.");
+            }
+        });
+        </script>
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

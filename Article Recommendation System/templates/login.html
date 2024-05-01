@@ -18,7 +18,8 @@
     <div class="container d-flex align-items-center justify-content-center h-100 login-margin-top">
         <div class="login-container">
             <h2 class="text-center mb-5 mt-3 ars-color">ARS</h2>
-            <form id="login-form">
+            <p id="error-message" class="error-message text-warning">{{ feedback }}</p>
+            <form id="login-form" action="./login" method="POST">
                 <div class="form-group mb-4">
                     <input type="text" id="username" name="username" class="form-control" placeholder="username" required>
                 </div>
@@ -29,11 +30,11 @@
                     <button type="submit" class="btn btn-outline-primary btn-block">Log In</button>
                 </div>
             </form>
-            <p id="error-message" class="error-message"></p>
+            
             <div class="signup-link text-center mt-5 mb-4">
                 <span>Don't have an account?</span>
                  
-                <a href="signup.html">Sign Up</a>
+                <a href="signup">Sign Up</a>
             </div>
         </div>
     </div>
