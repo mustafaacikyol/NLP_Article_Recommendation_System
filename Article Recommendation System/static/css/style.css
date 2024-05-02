@@ -43,3 +43,33 @@
     margin-bottom: 5vh;
 }
 
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+}
+
+.profile-dropdown{
+    margin-right: 10px;
+}
+
+.navbar{
+    background-color: #fff;
+}
+
+.navbar-brand{
+    color: #006494 !important;
+    font-weight: 500 !important;
+}
+
+.nav-link{
+    color: #006494 !important;
+    font-weight: 500 !important;
+    font-size: 20px !important;
+}
+
+.dashboard-container{
+    background-color: #f1f1f1;
+    height: 800px;
+}
+
