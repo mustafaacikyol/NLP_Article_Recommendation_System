@@ -71,15 +71,15 @@
     font-size: 18px !important;
 }
 
-.dashboard-container{
+.dashboard-content{
     background-color: #f1f1f1;
-    height: 800px;
+    height: 100vh;
 }
 
 .profile-information-content{
     margin-top: 62px !important;
     background-color: #f1f1f1;
-    height: 800px;
+    height: 90vh;
 }
 
 .form-label{
@@ -90,3 +90,13 @@
     color:#66717f ;
 }
 
+.update-profile-content{
+    margin-top: 62px !important;
+    background-color: #f1f1f1;
+    height: 170vh;
+}
+
+.form-check-div{
+    text-align: left;
+    margin-left: 100px;
+}

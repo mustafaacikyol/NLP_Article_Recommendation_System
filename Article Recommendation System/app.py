@@ -99,10 +99,19 @@ def profile_information():
             # Convert academic interests list to comma-separated string
             academic_interests = user.get('academic_interests', [])
             academic_interests_str = ', '.join(academic_interests)
-            
+
             # If user data is found, render profile information page
             return render_template('/profile-information.html',username=session['username'], name=session['name'], surname=session['surname'], gender=user['gender'], birthdate=birthdate, education=user['education_level'], academic_interests=academic_interests_str, email=user['email'])
         
+@app.route('/update-profile', methods=['GET','POST'])
+def update_profile():
+    # Check if user is logged in
+    if 'username' in session:
+        # User is logged in, render dashboard
+        return render_template('update-profile.html', id=session['id'], username=session['username'], name=session['name'], surname=session['surname'])
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
 
 if __name__ == '__main__':
     app.run(debug=True)
