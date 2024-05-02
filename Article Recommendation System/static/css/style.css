@@ -47,6 +47,7 @@
     width: 34px;
     height: 34px;
     border-radius: 50%;
+    margin-top: 5px;
 }
 
 .profile-dropdown{
@@ -60,16 +61,32 @@
 .navbar-brand{
     color: #006494 !important;
     font-weight: 500 !important;
+    margin-left: 50px;
+    font-size: 18px !important;
 }
 
 .nav-link{
     color: #006494 !important;
     font-weight: 500 !important;
-    font-size: 20px !important;
+    font-size: 18px !important;
 }
 
 .dashboard-container{
     background-color: #f1f1f1;
     height: 800px;
+}
+
+.profile-information-content{
+    margin-top: 62px !important;
+    background-color: #f1f1f1;
+    height: 800px;
+}
+
+.form-label{
+    color:#006494 !important;
+}
+
+.label-info{
+    color:#66717f ;
 }
 
