@@ -150,6 +150,33 @@ def update_profile():
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
+    
+@app.route('/change-password', methods=['GET', 'POST'])
+def change_password():
+    # Check if user is logged in
+    if 'username' in session:
+        # Retrieve user ID from session
+        user_id = session.get('id')
+
+        # Query MongoDB for user data using the user ID
+        user = users_collection.find_one({'_id': ObjectId(user_id)})
+
+        if user:
+            if request.method == 'POST':
+                # Update user data based on the submitted form
+                user['password'] = request.form['password']
+
+                # Update user data in the MongoDB database
+                users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': user})
+
+                # Redirect to the profile information page after update
+                return redirect(url_for('profile_information'))
+
+            # Render the update-profile page with user's data pre-filled in the form fields
+            return render_template('change-password.html', user=user)
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
 
 if __name__ == '__main__':
     app.run(debug=True)
