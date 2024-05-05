@@ -24,7 +24,7 @@ def login():
         if user:
             # Store user information in session
             session['id'] = str(user["_id"])  # Convert ObjectId to string
-            # session['username'] = user['username']
+            session['username'] = user['username']
             # session['name'] = user['name']
             # session['surname'] = user['surname']
 
@@ -115,8 +115,7 @@ def profile_information():
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
-
-    
+  
 @app.route('/update-profile', methods=['GET', 'POST'])
 def update_profile():
     # Check if user is logged in
@@ -177,6 +176,13 @@ def change_password():
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
+    
+@app.route('/logout')
+def logout():
+    # Clear the session
+    session.clear()
+    # Redirect to the login page
+    return redirect('/login')
 
 if __name__ == '__main__':
     app.run(debug=True)
