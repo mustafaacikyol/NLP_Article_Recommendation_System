@@ -17,7 +17,7 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="padding-left: 20px;">
-        <a class="navbar-brand" href="dashboard">{{name}} {{surname}}</a>
+        <a class="navbar-brand" href="dashboard">{{user.name}} {{user.surname}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,7 +30,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!-- Dropdown items go here -->
-                        <a class="dropdown-item" href="dashboard">{{username}}</a>
+                        <a class="dropdown-item" href="dashboard">{{user.username}}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile-information">Profile Information</a>
                         <a class="dropdown-item" href="update-profile">Update Profile</a>

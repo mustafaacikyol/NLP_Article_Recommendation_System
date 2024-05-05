@@ -17,7 +17,7 @@
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="padding-left: 20px;">
-        <a class="navbar-brand" href="dashboard">{{name}} {{surname}}</a>
+        <a class="navbar-brand" href="dashboard">{{user.name}} {{user.surname}}</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,7 +30,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!-- Dropdown items go here -->
-                        <a class="dropdown-item" href="dashboard">{{username}}</a>
+                        <a class="dropdown-item" href="dashboard">{{user.username}}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="profile-information">Profile Information</a>
                         <a class="dropdown-item" href="update-profile">Update Profile</a>
@@ -49,40 +49,40 @@
         <main role="main" class="profile-information-content pt-5">
             <div class="content">
                 <form action="" method="post">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="name">Name : </label>
-                        <span class="label-info">{{name}}</span>
+                        <span class="label-info">{{user.name}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="surname">Surname : </label>
-                        <span class="label-info">{{surname}}</span>
+                        <span class="label-info">{{user.surname}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="gender">Gender : </label>
-                        <span class="label-info">{{gender}}</span>
+                        <span class="label-info">{{user.gender}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="birthdate">Birth Date : </label>
-                        <span class="label-info">{{birthdate}}</span>
+                        <span class="label-info">{{user.birth_date}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="education-level">Education Level : </label>
-                        <span class="label-info">{{education}}</span>
+                        <span class="label-info">{{user.education_level}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="academic-interests">Academic Interest(s) : </label>
-                        <span class="label-info">{{academic_interests}}</span>
+                        <span class="label-info">{{user.academic_interests}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="email">Email : </label>
-                        <span class="label-info">{{email}}</span>
+                        <span class="label-info">{{user.email}}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label class="form-label" for="username">Username : </label>
-                        <span class="label-info">{{username}}</span>
+                        <span class="label-info">{{user.username}}</span>
                     </div>
                     <div class="form-group mt-5">
-                        <a href="update-admin" class="btn btn-md btn-round btn-outline-success">Update Information</a>
+                        <a href="update-profile" class="btn btn-md btn-round btn-outline-success">Update Information</a>
                     </div>
                 </form>
             </div>
