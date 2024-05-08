@@ -3,7 +3,7 @@ from pymongo import MongoClient
 import os
 
 # Connect to MongoDB
-client = MongoClient()
+client = MongoClient('mongodb://localhost:27017/')
 db = client['article_recommendation']
 collection = db['article']
 
