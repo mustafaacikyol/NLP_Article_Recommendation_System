@@ -49,27 +49,29 @@
     <div class="dashboard-content container">
         <div class="row">
             <div class="col-md-5">
-                <h5 class="recommend-article-title text-center py-5">FastText Recommended Articles</h5>
+                <h5 class="recommend-article-title text-center pt-5">FastText Recommended Articles</h5>
+                <p class="precision text-center pb-5">Precision : </p>
                 <ul>
                     {% for article, similarity in similar_articles_fasttext %}
                         <li class="mb-5">
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong> 
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="offset-md-1 col-md-5">
-                <h5 class="recommend-article-title text-center py-5">SciBERT Recommended Articles</h5>
+                <h5 class="recommend-article-title text-center pt-5">SciBERT Recommended Articles</h5>
+                <p class="precision text-center pb-5">Precision : </p>
                 <ul>
                     {% for article, similarity in similar_articles_scibert %}
                         <li class="mb-5">
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong>
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -77,7 +79,11 @@
         </div>
     </div>
     
-    
+    <script>
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+        }
+    </script>
     
 
     <!-- jQuery and Bootstrap JS -->

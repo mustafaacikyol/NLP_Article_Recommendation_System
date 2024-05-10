@@ -124,3 +124,13 @@
 .cosine-similarity{
     color: lightslategray;
 }
+
+.precision{
+    color: #006494;
+}
+
+.liked {
+    color: #fff !important;
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
