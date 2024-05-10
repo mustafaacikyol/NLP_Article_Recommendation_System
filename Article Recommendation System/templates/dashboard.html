@@ -46,9 +46,37 @@
         </div>
     </nav>
 
-    <div class="dashboard-content">
-
+    <div class="dashboard-content container">
+        <div class="row">
+            <div class="col-md-5">
+                <h5 class="recommend-article-title text-center py-5">FastText Recommended Articles</h5>
+                <ul>
+                    {% for article, similarity in similar_articles_fasttext %}
+                        <li class="mb-5">
+                            <strong>{{ loop.index }}. {{ article.title }}</strong> 
+                            <p class="mt-2">{{ article.abstract }}</p>
+                            <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="offset-md-1 col-md-5">
+                <h5 class="recommend-article-title text-center py-5">SciBERT Recommended Articles</h5>
+                <ul>
+                    {% for article, similarity in similar_articles_scibert %}
+                        <li class="mb-5">
+                            <strong>{{ loop.index }}. {{ article.title }}</strong>
+                            <p class="mt-2">{{ article.abstract }}</p>
+                            <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
+    
+    
+    
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

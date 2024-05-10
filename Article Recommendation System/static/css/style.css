@@ -73,7 +73,27 @@
 
 .dashboard-content{
     background-color: #f1f1f1;
-    height: 100vh;
+    height: fit-content;
+    margin-top: 62px !important;
+    max-width: 100vw !important;
+}
+
+/* Remove bullet points from list items */
+.dashboard-content ul {
+    list-style: none;
+    padding-left: 0; /* Optional: Remove default padding */
+}
+
+.dashboard-content ul li {
+    padding-left: 50px !important; 
+}
+
+.dashboard-content ul li button {
+    margin-left: 200px;
+}
+
+.recommend-article-title{
+    color:#006494 !important;
 }
 
 .profile-information-content{
@@ -100,3 +120,4 @@
     text-align: left;
     margin-left: 100px;
 }
+

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
+import numpy as np
 
 app = Flask(__name__)
 app.secret_key = '123456789'  # Set a secret key for session management
@@ -9,7 +10,9 @@ app.secret_key = '123456789'  # Set a secret key for session management
 # Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017/')
 db = client['article_recommendation']
-users_collection = db['user']
+user_collection = db['user']
+article_collection = db["article"]
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -19,7 +22,7 @@ def login():
         password = request.form['password']
         
         # Query MongoDB for user with provided username and password
-        user = users_collection.find_one({'username': username, 'password': password})
+        user = user_collection.find_one({'username': username, 'password': password})
         
         if user:
             # Store user information in session
@@ -63,7 +66,7 @@ def signup():
         }
 
         # Insert the user document into MongoDB
-        result = users_collection.insert_one(new_user)
+        result = user_collection.insert_one(new_user)
 
         if result.inserted_id:
             return redirect('/login')
@@ -79,14 +82,58 @@ def dashboard():
         # Retrieve user ID from session
         user_id = session.get('id')
 
+        similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
+        similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
+
         # Query MongoDB for user data using the user ID
-        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
 
         # User is logged in, render dashboard
-        return render_template('dashboard.html', user=user)
+        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
+    
+# Function to compute cosine similarity
+def cosine_similarity(vector_a, vector_b):
+    dot_product = np.dot(vector_a, vector_b)
+    norm_a = np.linalg.norm(vector_a)
+    norm_b = np.linalg.norm(vector_b)
+    similarity = dot_product / (norm_a * norm_b)
+    return similarity
+
+# Function to find most similar articles
+def find_most_similar_articles(user_embedding, collection_name, embedding_field):
+    similar_articles = []
+    for article in collection_name.find():
+        article_embedding = np.array(article.get(embedding_field, []))
+        if len(article_embedding) > 0:
+            similarity = cosine_similarity(user_embedding, article_embedding)
+            similar_articles.append((article, similarity))
+    similar_articles.sort(key=lambda x: x[1], reverse=True)
+    return similar_articles[:5]
+
+# Function to recommend articles to user based on FastText vector
+def recommend_articles_fasttext(user_id):
+    user = user_collection.find_one({"_id": user_id})
+    if user:
+        user_embedding = np.array(user.get("fasttext_vector_embedding", []))
+        if len(user_embedding) > 0:
+            similar_articles = find_most_similar_articles(user_embedding, article_collection, "fasttext_vector_embedding")
+            return similar_articles
+    else:
+        print("no user")
+    return []
+
+# Function to recommend articles to user based on SciBERT vector
+def recommend_articles_scibert(user_id):
+    user = user_collection.find_one({"_id": user_id})
+    if user:
+        user_embedding = np.array(user.get("scibert_vector_embedding", []))
+        if len(user_embedding) > 0:
+            similar_articles = find_most_similar_articles(user_embedding, article_collection, "scibert_vector_embedding")
+            return similar_articles
+    return []
     
 @app.route('/profile-information', methods=['GET','POST'])
 def profile_information():
@@ -96,7 +143,7 @@ def profile_information():
         user_id = session.get('id')
 
         # Query MongoDB for user data using the user ID
-        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
 
         if user:
             # Parse birthdate from MongoDB document
@@ -124,7 +171,7 @@ def update_profile():
         user_id = session.get('id')
 
         # Query MongoDB for user data using the user ID
-        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
 
         if user:
             if request.method == 'POST':
@@ -139,7 +186,7 @@ def update_profile():
                 user['username'] = request.form['username']
 
                 # Update user data in the MongoDB database
-                users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': user})
+                user_collection.update_one({'_id': ObjectId(user_id)}, {'$set': user})
 
                 # Redirect to the profile information page after update
                 return redirect(url_for('profile_information'))
@@ -158,7 +205,7 @@ def change_password():
         user_id = session.get('id')
 
         # Query MongoDB for user data using the user ID
-        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
 
         if user:
             if request.method == 'POST':
@@ -166,7 +213,7 @@ def change_password():
                 user['password'] = request.form['password']
 
                 # Update user data in the MongoDB database
-                users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': user})
+                user_collection.update_one({'_id': ObjectId(user_id)}, {'$set': user})
 
                 # Redirect to the profile information page after update
                 return redirect(url_for('profile_information'))
