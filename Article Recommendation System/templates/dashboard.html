@@ -53,6 +53,7 @@
                 <ul>
                     {% for article, similarity in similar_articles_fasttext %}
                         <li class="mb-5">
+                            <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong> 
                             <p class="mt-2">{{ article.abstract }}</p>
                             <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>
@@ -65,6 +66,7 @@
                 <ul>
                     {% for article, similarity in similar_articles_scibert %}
                         <li class="mb-5">
+                            <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong>
                             <p class="mt-2">{{ article.abstract }}</p>
                             <button class="btn btn-outline-danger rounded-circle"><i class="fas fa-heart"></i></button>

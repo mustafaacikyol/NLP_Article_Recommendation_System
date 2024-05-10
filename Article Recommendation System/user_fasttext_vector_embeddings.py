@@ -1,10 +1,15 @@
 import fasttext
 import pymongo
 import numpy as np
+import time
 
-# Load the FastText pre-trained model
-# Change the path to the FastText model file according to your setup
+start_time = time.time()
+
 model = fasttext.load_model('../../cc.en.300.bin')
+
+end_time = time.time()
+loading_time = end_time - start_time
+print(loading_time)
 
 # Connect to MongoDB
 client = pymongo.MongoClient("mongodb://localhost:27017/")
