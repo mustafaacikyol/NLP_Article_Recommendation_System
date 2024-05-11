@@ -50,28 +50,28 @@
         <div class="row">
             <div class="col-md-5">
                 <h5 class="recommend-article-title text-center pt-5">FastText Recommended Articles</h5>
-                <p class="precision text-center pb-5">Precision : </p>
+                <p class="precision text-center pb-5">Precision : <span id="precision-fasttext">0</span></p>
                 <ul>
                     {% for article, similarity in similar_articles_fasttext %}
                         <li class="mb-5">
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong> 
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="offset-md-1 col-md-5">
                 <h5 class="recommend-article-title text-center pt-5">SciBERT Recommended Articles</h5>
-                <p class="precision text-center pb-5">Precision : </p>
+                <p class="precision text-center pb-5">Precision : <span id="precision-scibert">0</span></p>
                 <ul>
                     {% for article, similarity in similar_articles_scibert %}
                         <li class="mb-5">
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong>
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -82,6 +82,19 @@
     <script>
         function toggleLike(btn) {
             btn.classList.toggle('liked');
+            var precisionElement;
+            if (btn.closest('.col-md-5').querySelector('.recommend-article-title').textContent.includes("FastText")) {
+                precisionElement = document.getElementById('precision-fasttext');
+            } else {
+                precisionElement = document.getElementById('precision-scibert');
+            }
+            var currentPrecision = parseFloat(precisionElement.textContent);
+            var precisionChange = parseFloat(btn.getAttribute('data-precision'));
+            if (btn.classList.contains('liked')) {
+                precisionElement.textContent = (currentPrecision + precisionChange).toFixed(1);
+            } else {
+                precisionElement.textContent = (currentPrecision - precisionChange).toFixed(1);
+            }
         }
     </script>
     
