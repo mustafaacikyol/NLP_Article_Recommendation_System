@@ -140,12 +140,16 @@
     border-color: #dc3545 !important;
 }
 
+.dashboard-link{
+    margin-right: 50px;
+}
+
 .article-link{
     margin-right: 50px;
 }
 
 .search-link{
-    margin-right: 400px;
+    margin-right: 350px;
 }
 
 .dropdown-item{
@@ -202,7 +206,7 @@
 .search-result-content{
     background-color: #f1f1f1;
     height: fit-content;
-    margin-top: 30px !important;
+    margin-top: 20px !important;
 }
 
 .search-result-content ul {
@@ -211,6 +215,7 @@
 
 .search-result{
     color: #006494;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 40px;
+    margin-bottom: 40px !important;
 }
