@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
 import numpy as np
+from math import ceil
 
 app = Flask(__name__)
 app.secret_key = '123456789'  # Set a secret key for session management
@@ -224,6 +225,58 @@ def change_password():
         # User is not logged in, redirect to login page
         return redirect('/login')
     
+@app.route('/articles', methods=['GET', 'POST'])
+def articles():
+    # Check if user is logged in
+    if 'username' in session:
+        # Retrieve user ID from session
+        user_id = session.get('id')
+
+        # Query MongoDB for user data using the user ID
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
+
+        # Retrieve articles from MongoDB including _id
+        articles = article_collection.find({}, {'_id': 1, 'title': 1, 'abstract': 1})
+
+        # Pagination
+        total_articles = articles.count()
+        articles_per_page = 100
+        total_pages = ceil(total_articles / articles_per_page)
+        page = int(request.args.get('page', 1))
+        articles = articles.skip((page - 1) * articles_per_page).limit(articles_per_page)
+
+        # User is logged in, render articles page with user data and articles
+        return render_template('articles.html', user=user, articles=articles, page=page, total_pages=total_pages)
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
+@app.route('/article-detail', methods=['GET', 'POST'])
+def article_detail():
+    # Check if user is logged in
+    if 'username' in session:
+        # Retrieve user ID from session
+        user_id = session.get('id')
+        article_id = request.args.get('id')
+
+        # Query MongoDB for user data using the user ID
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
+
+        # Retrieve the article details based on the provided article_id
+        article = article_collection.find_one({'_id': ObjectId(article_id)})
+
+        # Convert academic interests list to comma-separated string
+        keywords = article.get('keywords', [])
+        keywords_str = ', '.join(keywords)
+        
+        article['keywords'] = keywords_str
+
+        # User is logged in, render articles page with user data and articles
+        return render_template('article-detail.html', user=user, article=article)
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
 @app.route('/logout')
 def logout():
     # Clear the session

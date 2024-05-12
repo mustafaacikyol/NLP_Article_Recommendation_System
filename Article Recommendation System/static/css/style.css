@@ -78,10 +78,9 @@
     max-width: 100vw !important;
 }
 
-/* Remove bullet points from list items */
 .dashboard-content ul {
     list-style: none;
-    padding-left: 0; /* Optional: Remove default padding */
+    padding-left: 0; 
 }
 
 .dashboard-content ul li {
@@ -151,4 +150,43 @@
 
 .dropdown-item{
     --bs-dropdown-link-active-bg:#f1f1f1 !important;
+}
+
+.articles-content{
+    background-color: #f1f1f1;
+    height: fit-content;
+    margin-top: 62px !important;
+    max-width: 100vw !important;
+    padding-top: 60px;
+}
+
+.articles-content ul {
+    list-style: none;
+}
+
+.page-number{
+    background-color: #f1f1f1;
+    height: 80px;
+}
+
+.title-link{
+    text-decoration: none;
+    color: lightslategray;
+}
+
+.article-detail-content{
+    background-color: #f1f1f1;
+    height: 90vh;
+    margin-top: 62px !important;
+    max-width: 100vw !important;
+    padding-top: 60px;
+}
+
+.keywords-title{
+    margin-top: 50px;
+    color: lightslategray;
+}
+
+.article-title{
+    color: lightslategray;
 }

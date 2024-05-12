@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles</title>
+    <title>Article Detail</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
         integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
@@ -52,35 +52,17 @@
         </div>
     </nav>
     
-    <div class="articles-content container">
+    <div class="article-detail-content container">
         <div class="row">
-            <div class="col-12">
-                <ul>
-                    {% set start_index = (page - 1) * 100 %}
-                    {% set end_index = start_index + 100 %}
-                    {% for article in articles[start_index:end_index] %}
-                        <li class="mb-5">
-                            <strong><a href="/article-detail?id={{ article._id }}" class="title-link">{{ loop.index + start_index }}. {{ article.title }}</a></strong> 
-                            <p class="mt-2">{{ article.abstract }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <div class="offset-1 col-10">
+                <h3 class="article-title">{{ article.title }}</h3>
+                <p>{{ article.abstract }}</p>
+                <h5 class="keywords-title">Keywords</h5>
+                <p>{{ article.keywords}}</p>
             </div>
         </div>
     </div>
     
-    <!-- Pagination -->
-    <nav aria-label="Page navigation" class="page-number">
-        <ul class="pagination justify-content-center">
-            {% for p in range(1, total_pages + 1) %}
-                <li class="page-item {% if p == page %}active{% endif %}">
-                    <a class="page-link" href="/articles?page={{ p }}">{{ p }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
-    
-
     <!-- jQuery and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
