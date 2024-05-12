@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Articles</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
         integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg=="
@@ -53,57 +53,9 @@
     </nav>
     
 
-    <div class="dashboard-content container">
-        <div class="row">
-            <div class="col-md-5">
-                <h5 class="recommend-article-title text-center pt-5">FastText Recommended Articles</h5>
-                <p class="precision text-center pb-5">Precision : <span id="precision-fasttext">0</span></p>
-                <ul>
-                    {% for article, similarity in similar_articles_fasttext %}
-                        <li class="mb-5">
-                            <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
-                            <strong>{{ loop.index }}. {{ article.title }}</strong> 
-                            <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="offset-md-1 col-md-5">
-                <h5 class="recommend-article-title text-center pt-5">SciBERT Recommended Articles</h5>
-                <p class="precision text-center pb-5">Precision : <span id="precision-scibert">0</span></p>
-                <ul>
-                    {% for article, similarity in similar_articles_scibert %}
-                        <li class="mb-5">
-                            <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
-                            <strong>{{ loop.index }}. {{ article.title }}</strong>
-                            <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-    </div>
     
-    <script>
-        function toggleLike(btn) {
-            btn.classList.toggle('liked');
-            var precisionElement;
-            if (btn.closest('.col-md-5').querySelector('.recommend-article-title').textContent.includes("FastText")) {
-                precisionElement = document.getElementById('precision-fasttext');
-            } else {
-                precisionElement = document.getElementById('precision-scibert');
-            }
-            var currentPrecision = parseFloat(precisionElement.textContent);
-            var precisionChange = parseFloat(btn.getAttribute('data-precision'));
-            if (btn.classList.contains('liked')) {
-                precisionElement.textContent = (currentPrecision + precisionChange).toFixed(1);
-            } else {
-                precisionElement.textContent = (currentPrecision - precisionChange).toFixed(1);
-            }
-        }
-    </script>
+    
+    
     
 
     <!-- jQuery and Bootstrap JS -->

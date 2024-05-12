@@ -24,6 +24,12 @@
         </button>
         <div class="collapse navbar-collapse ml-auto" id="navbarNav" style="display: flex; justify-content: flex-end;margin-right:80px;">
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link article-link" href="articles">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link search-link" href="search">Search</a>
+                </li>
                 <li class="nav-item dropdown profile-dropdown">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Profile
@@ -82,31 +88,67 @@
                     </div>                    
                     <div class="form-group mb-3">
                         <label class="form-label">Academic Interest(s):</label>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="science" value="science" {% if 'science' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="science">Science</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="scheduling" value="scheduling" {% if 'scheduling' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="scheduling">Scheduling</label>
                         </div>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="technology" value="technology" {% if 'technology' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="technology">Technology</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="data-mining" value="data mining" {% if 'data mining' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="data-mining">Data Mining</label>
                         </div>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="engineering" value="engineering" {% if 'engineering' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="engineering">Engineering</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="performance-evaluation" value="performance evaluation" {% if 'performance evaluation' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="performance-evaluation">Performance Evaluation</label>
                         </div>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="mathematics" value="mathematics" {% if 'mathematics' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="mathematics">Mathematics</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="computational-complexity" value="computational complexity" {% if 'computational complexity' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="computational-complexity">Computational Complexity</label>
                         </div>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="medicine" value="medicine" {% if 'medicine' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="medicine">Medicine</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="parallel-algorithms" value="parallel algorithms" {% if 'parallel algorithms' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="parallel-algorithms">Parallel Algorithms</label>
                         </div>
-                        <div class="form-check form-check-div">
-                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="arts" value="arts" {% if 'arts' in user.academic_interests %} checked {% endif %}>
-                            <label class="form-check-label" for="arts">Arts</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="fault-tolerence" value="fault tolerence" {% if 'fault tolerence' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="fault-tolerence">Fault Tolerence</label>
                         </div>
-                        <!-- Add more checkboxes for additional academic interests -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="approximation-algorithms" value="approximation algorithms" {% if 'approximation algorithms' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="approximation-algorithms">Approximation Algorithms</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="model-checking" value="model checking" {% if 'model checking' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="model-checking">Model Checking</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="distributed-systems" value="distributed systems" {% if 'distributed systems' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="distributed-systems">Distributed Systems</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="preconditioning" value="preconditioning" {% if 'preconditioning' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="preconditioning">Preconditioning</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="optimization" value="optimization" {% if 'optimization' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="optimization">Optimization</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="routing" value="routing" {% if 'routing' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="routing">Routing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="load-balancing" value="load balancing" {% if 'load balancing' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="load-balancing">Load Balancing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="semidefinite-programming" value="semidefinite programming" {% if 'semidefinite programming' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="semidefinite-programming">Semidefinite Programming</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="academic-interest[]" id="real-time-systems" value="real time systems" {% if 'real time systems' in user.academic_interests %} checked {% endif %}>
+                            <label class="form-check-label" for="real-time-systems">Real-time Systems</label>
+                        </div>
+                        
                     </div>
                     <div class="form-group mb-3">
                         <label class="form-label" for="email">Email : </label>
@@ -116,7 +158,7 @@
                         <label class="form-label" for="username">Username : </label>
                         <input type="text" class="form-control" id="username" name="username" value="{{user.username}}" required>
                     </div>
-                    <div class="form-group mt-3">
+                    <div class="form-group mt-5 mb-5">
                         <button type="submit" class="btn btn-md btn-round btn-outline-success" name="updateBtn">Update</button>
                     </div>
                 </form>

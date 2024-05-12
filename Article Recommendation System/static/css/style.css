@@ -113,7 +113,13 @@
 .update-profile-content{
     margin-top: 62px !important;
     background-color: #f1f1f1;
-    height: 160vh;
+    height: 200vh;
+}
+
+.change-password-content{
+    margin-top: 62px !important;
+    background-color: #f1f1f1;
+    height: 90vh;
 }
 
 .form-check-div{
@@ -133,4 +139,16 @@
     color: #fff !important;
     background-color: #dc3545 !important;
     border-color: #dc3545 !important;
+}
+
+.article-link{
+    margin-right: 50px;
+}
+
+.search-link{
+    margin-right: 400px;
+}
+
+.dropdown-item{
+    --bs-dropdown-link-active-bg:#f1f1f1 !important;
 }
