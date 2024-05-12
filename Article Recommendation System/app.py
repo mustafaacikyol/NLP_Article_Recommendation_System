@@ -4,6 +4,8 @@ from bson import ObjectId
 from datetime import datetime
 import numpy as np
 from math import ceil
+import re  # Import the re module for regular expressions
+from bson.regex import Regex
 
 app = Flask(__name__)
 app.secret_key = '123456789'  # Set a secret key for session management
@@ -276,6 +278,43 @@ def article_detail():
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
+
+from bson.regex import Regex
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    # Check if user is logged in
+    if 'username' in session:
+        # Retrieve user ID from session
+        user_id = session.get('id')
+        
+        # Query MongoDB for user data using the user ID
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
+
+        if request.method == 'POST':
+            query = request.form["query"]
+
+            # Ensure query is a string
+            query = str(query)
+
+            # Construct regex pattern for case-insensitive search
+            regex_pattern = Regex("^" + re.escape(query), "i")
+
+            # Query MongoDB for articles that match the search query
+            articles = article_collection.find({'keywords': {'$regex': regex_pattern}})
+
+            # Count the number of articles found
+            num_articles = articles.count()
+
+            # Render the search results page with matching articles
+            return render_template('search.html', user=user, articles=articles, num_articles=num_articles, query=query)
+        else:
+            return render_template('search.html', user=user)
+        
+    else:
+        # User is not logged in, redirect to login page
+        return redirect('/login')
+
 
 @app.route('/logout')
 def logout():

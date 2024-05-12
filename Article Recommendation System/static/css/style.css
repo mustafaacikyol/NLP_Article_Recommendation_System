@@ -190,3 +190,27 @@
 .article-title{
     color: lightslategray;
 }
+
+.search-content{
+    background-color: #f1f1f1;
+    height: 90vh;
+    margin-top: 62px !important;
+    max-width: 100vw !important;
+    padding-top: 60px;
+}
+
+.search-result-content{
+    background-color: #f1f1f1;
+    height: fit-content;
+    margin-top: 30px !important;
+}
+
+.search-result-content ul {
+    list-style: none;
+}
+
+.search-result{
+    color: #006494;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
