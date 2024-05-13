@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from pymongo import MongoClient
 from bson import ObjectId
 from datetime import datetime
@@ -15,6 +15,8 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['article_recommendation']
 user_collection = db['user']
 article_collection = db["article"]
+
+counter = -5
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -78,25 +80,25 @@ def signup():
 
     return render_template('signup.html', feedback = feedback)
 
-@app.route('/dashboard', methods=['GET','POST'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     # Check if user is logged in
     if 'username' in session:
         # Retrieve user ID from session
         user_id = session.get('id')
+        # Query MongoDB for user data using the user ID
+        user = user_collection.find_one({'_id': ObjectId(user_id)})
 
         similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
         similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
 
-        # Query MongoDB for user data using the user ID
-        user = user_collection.find_one({'_id': ObjectId(user_id)})
-
-        # User is logged in, render dashboard
-        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
-    else:
-        # User is not logged in, redirect to login page
-        return redirect('/login')
+        global counter
+        counter += 5
+        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext[counter:counter+5], similar_articles_scibert=similar_articles_scibert[counter:counter+5])
     
+    # User is not logged in, redirect to login page
+    return redirect('/login')
+
 # Function to compute cosine similarity
 def cosine_similarity(vector_a, vector_b):
     dot_product = np.dot(vector_a, vector_b)
@@ -114,7 +116,7 @@ def find_most_similar_articles(user_embedding, collection_name, embedding_field)
             similarity = cosine_similarity(user_embedding, article_embedding)
             similar_articles.append((article, similarity))
     similar_articles.sort(key=lambda x: x[1], reverse=True)
-    return similar_articles[:5]
+    return similar_articles[:100]
 
 # Function to recommend articles to user based on FastText vector
 def recommend_articles_fasttext(user_id):
@@ -279,8 +281,6 @@ def article_detail():
         # User is not logged in, redirect to login page
         return redirect('/login')
 
-from bson.regex import Regex
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     # Check if user is logged in
@@ -314,7 +314,6 @@ def search():
     else:
         # User is not logged in, redirect to login page
         return redirect('/login')
-
 
 @app.route('/logout')
 def logout():

@@ -70,7 +70,7 @@
                             <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
-                </ul>
+                </ul>                
             </div>
             <div class="offset-md-1 col-md-5">
                 <h5 class="recommend-article-title text-center pt-5">SciBERT Recommended Articles</h5>
@@ -89,6 +89,12 @@
         </div>
     </div>
     
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script>
         function toggleLike(btn) {
             btn.classList.toggle('liked');
@@ -108,11 +114,6 @@
         }
     </script>
     
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
