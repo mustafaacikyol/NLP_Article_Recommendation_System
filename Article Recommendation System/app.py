@@ -16,8 +16,6 @@ db = client['article_recommendation']
 user_collection = db['user']
 article_collection = db["article"]
 
-counter = -5
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -92,9 +90,7 @@ def dashboard():
         similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
         similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
 
-        global counter
-        counter += 5
-        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext[counter:counter+5], similar_articles_scibert=similar_articles_scibert[counter:counter+5])
+        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
     
     # User is not logged in, redirect to login page
     return redirect('/login')
@@ -116,7 +112,7 @@ def find_most_similar_articles(user_embedding, collection_name, embedding_field)
             similarity = cosine_similarity(user_embedding, article_embedding)
             similar_articles.append((article, similarity))
     similar_articles.sort(key=lambda x: x[1], reverse=True)
-    return similar_articles[:100]
+    return similar_articles[:5]
 
 # Function to recommend articles to user based on FastText vector
 def recommend_articles_fasttext(user_id):

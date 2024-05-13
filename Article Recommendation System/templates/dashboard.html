@@ -67,10 +67,14 @@
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong> 
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" data-article-id="{{ article._id }}" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
-                </ul>                
+                </ul>
+                <div class="text-center mb-5">
+                    <button class="btn btn-outline-success" type="submit" name="fasttextBtn" onclick="displayRecommendedArticles('fasttext')">Display Recommended Articles</button>
+                </div>
+                
             </div>
             <div class="offset-md-1 col-md-5">
                 <h5 class="recommend-article-title text-center pt-5">SciBERT Recommended Articles</h5>
@@ -81,10 +85,13 @@
                             <p class="cosine-similarity">Cosine Similarity : {{similarity}}</p>
                             <strong>{{ loop.index }}. {{ article.title }}</strong>
                             <p class="mt-2">{{ article.abstract }}</p>
-                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-outline-danger rounded-circle like-button" data-precision="0.2" data-article-id="{{ article._id }}" onclick="toggleLike(this)"><i class="fas fa-heart"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
+                <div class="text-center mb-5">
+                    <button class="btn btn-outline-success" type="submit" name="scibertBtn" onclick="displayRecommendedArticles('scibert')">Display Recommended Articles</button>
+                </div>
             </div>
         </div>
     </div>
@@ -96,24 +103,39 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
     <script>
+        var fasttextLikedArticles = [];
+        var scibertLikedArticles = [];
+
         function toggleLike(btn) {
             btn.classList.toggle('liked');
             var precisionElement;
             if (btn.closest('.col-md-5').querySelector('.recommend-article-title').textContent.includes("FastText")) {
                 precisionElement = document.getElementById('precision-fasttext');
+                var likedArticles = fasttextLikedArticles; // Use fasttextLikedArticles array
             } else {
                 precisionElement = document.getElementById('precision-scibert');
+                var likedArticles = scibertLikedArticles; // Use scibertLikedArticles array
             }
             var currentPrecision = parseFloat(precisionElement.textContent);
             var precisionChange = parseFloat(btn.getAttribute('data-precision'));
+            var articleId = btn.getAttribute('data-article-id'); // Get the _id of the article
+
             if (btn.classList.contains('liked')) {
                 precisionElement.textContent = (currentPrecision + precisionChange).toFixed(1);
+                likedArticles.push(articleId); // Add the article _id to the corresponding array
             } else {
                 precisionElement.textContent = (currentPrecision - precisionChange).toFixed(1);
+                var index = likedArticles.indexOf(articleId);
+                if (index !== -1) {
+                    likedArticles.splice(index, 1); // Remove the article _id from the corresponding array
+                }
             }
+            console.log(fasttextLikedArticles); // Log FastText liked articles array
+            console.log(scibertLikedArticles); // Log SciBERT liked articles array
         }
+
     </script>
-    
+
 </body>
 
 </html>
