@@ -106,11 +106,29 @@ def update_fasttext_liked_articles():
 
 @app.route('/update_scibert_liked_articles', methods=['POST'])
 def update_scibert_liked_articles():
-    scibert_liked_articles = request.json.get('liked_articles')
-    print("SciBERT Liked Articles:", scibert_liked_articles)
-    # Process the liked articles for SciBERT
-    # Return a response if necessary
-    return jsonify({"message": "SciBERT liked articles received successfully"})
+    scibert_liked_article_ids = request.json.get('liked_articles')
+    scibert_vector_embeddings = []
+
+    user_id = session.get('id')
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+
+    for article_id in scibert_liked_article_ids:
+        article = article_collection.find_one({'_id': ObjectId(article_id)})
+        if article and 'scibert_vector_embedding' in article:
+            scibert_vector_embeddings.append(article['scibert_vector_embedding'])
+
+    # Calculate the average fasttext_vector_embedding using NumPy
+    if scibert_vector_embeddings:
+        average_embedding = np.mean(scibert_vector_embeddings, axis=0)
+
+        # Update the user's fasttext_vector_embedding
+        user_embedding = np.array(user['scibert_vector_embedding'])
+        new_user_embedding = (user_embedding + average_embedding) / 2  # Calculate the average
+        user_collection.update_one({'_id': user['_id']}, {'$set': {'scibert_vector_embedding': new_user_embedding.tolist()}})
+
+        return jsonify({"message": "FastText liked articles processed successfully"})
+    else:
+        return jsonify({"message": "No FastText liked articles found"})
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
