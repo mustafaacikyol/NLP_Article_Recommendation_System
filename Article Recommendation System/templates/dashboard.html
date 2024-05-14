@@ -134,6 +134,30 @@
             console.log(scibertLikedArticles); // Log SciBERT liked articles array
         }
 
+        function sendLikedArticlesToServer(likedArticles, route) {
+            $.ajax({
+                url: route,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ liked_articles: likedArticles }),
+                success: function(response) {
+                    console.log(response.message); // Log the server response
+                    // You can perform further actions based on the server response
+                },
+                error: function(xhr, status, error) {
+                    console.error(error); // Log any errors
+                }
+            });
+        }
+
+        function displayRecommendedArticles(model) {
+            if (model === 'fasttext') {
+                sendLikedArticlesToServer(fasttextLikedArticles, '/update_fasttext_liked_articles');
+            } else if (model === 'scibert') {
+                sendLikedArticlesToServer(scibertLikedArticles, '/update_scibert_liked_articles');
+            }
+        }
+
     </script>
 
 </body>
