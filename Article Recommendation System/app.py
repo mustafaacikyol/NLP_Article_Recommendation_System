@@ -142,6 +142,13 @@ def dashboard():
         similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
         similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
 
+        # Get article IDs from the similar articles lists
+        fasttext_article_ids = [str(article[0]['_id']) for article in similar_articles_fasttext]
+        scibert_article_ids = [str(article[0]['_id']) for article in similar_articles_scibert]
+
+        # Update user_collection with the new article IDs by adding them to the existing lists
+        user_collection.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'fasttext_displayed_articles': {'$each': fasttext_article_ids}, 'scibert_displayed_articles': {'$each': scibert_article_ids}}})
+
         return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
     
     # User is not logged in, redirect to login page
@@ -155,10 +162,14 @@ def cosine_similarity(vector_a, vector_b):
     similarity = dot_product / (norm_a * norm_b)
     return similarity
 
-# Function to find most similar articles
-def find_most_similar_articles(user_embedding, collection_name, embedding_field):
+# Function to find most similar articles that haven't been displayed to the user before
+def find_most_similar_articles(user_embedding, collection_name, embedding_field, displayed_articles):
     similar_articles = []
     for article in collection_name.find():
+        article_id = str(article['_id'])
+        # Check if the article has been displayed to the user before
+        if article_id in displayed_articles:
+            continue  # Skip this article if it has been displayed before
         article_embedding = np.array(article.get(embedding_field, []))
         if len(article_embedding) > 0:
             similarity = cosine_similarity(user_embedding, article_embedding)
@@ -166,16 +177,16 @@ def find_most_similar_articles(user_embedding, collection_name, embedding_field)
     similar_articles.sort(key=lambda x: x[1], reverse=True)
     return similar_articles[:5]
 
+
 # Function to recommend articles to user based on FastText vector
 def recommend_articles_fasttext(user_id):
     user = user_collection.find_one({"_id": user_id})
     if user:
         user_embedding = np.array(user.get("fasttext_vector_embedding", []))
+        displayed_articles = user.get("fasttext_displayed_articles", [])
         if len(user_embedding) > 0:
-            similar_articles = find_most_similar_articles(user_embedding, article_collection, "fasttext_vector_embedding")
+            similar_articles = find_most_similar_articles(user_embedding, article_collection, "fasttext_vector_embedding", displayed_articles)
             return similar_articles
-    else:
-        print("no user")
     return []
 
 # Function to recommend articles to user based on SciBERT vector
@@ -183,10 +194,12 @@ def recommend_articles_scibert(user_id):
     user = user_collection.find_one({"_id": user_id})
     if user:
         user_embedding = np.array(user.get("scibert_vector_embedding", []))
+        displayed_articles = user.get("scibert_displayed_articles", [])
         if len(user_embedding) > 0:
-            similar_articles = find_most_similar_articles(user_embedding, article_collection, "scibert_vector_embedding")
+            similar_articles = find_most_similar_articles(user_embedding, article_collection, "scibert_vector_embedding", displayed_articles)
             return similar_articles
     return []
+
     
 @app.route('/profile-information', methods=['GET','POST'])
 def profile_information():
