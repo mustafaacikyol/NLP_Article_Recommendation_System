@@ -134,7 +134,7 @@
             console.log(scibertLikedArticles); // Log SciBERT liked articles array
         }
 
-        function sendLikedArticlesToServer(likedArticles, route) {
+        function sendLikedArticlesToServer(likedArticles, route, flag) {
             $.ajax({
                 url: route,
                 type: 'POST',
@@ -143,7 +143,7 @@
                 success: function(response) {
                     console.log(response.message); // Log the server response
                     // You can perform further actions based on the server response
-                    window.location.reload();
+                    window.location.href = '/dashboard?flag=' + flag;
                 },
                 error: function(xhr, status, error) {
                     console.error(error); // Log any errors
@@ -153,9 +153,9 @@
 
         function displayRecommendedArticles(model) {
             if (model === 'fasttext') {
-                sendLikedArticlesToServer(fasttextLikedArticles, '/update_fasttext_liked_articles');
+                sendLikedArticlesToServer(fasttextLikedArticles, '/update_fasttext_liked_articles', 'fasttext');
             } else if (model === 'scibert') {
-                sendLikedArticlesToServer(scibertLikedArticles, '/update_scibert_liked_articles');
+                sendLikedArticlesToServer(scibertLikedArticles, '/update_scibert_liked_articles', 'scibert');
             }
         }
 

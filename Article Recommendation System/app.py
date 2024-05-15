@@ -130,27 +130,42 @@ def update_scibert_liked_articles():
     else:
         return jsonify({"message": "No FastText liked articles found"})
 
+similar_articles_fasttext = []
+similar_articles_scibert = []
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+    flag = request.args.get('flag')
     # Check if user is logged in
     if 'username' in session:
         # Retrieve user ID from session
         user_id = session.get('id')
         # Query MongoDB for user data using the user ID
         user = user_collection.find_one({'_id': ObjectId(user_id)})
+        global similar_articles_fasttext
+        global similar_articles_scibert
+        if(flag == None):
+            similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
+            similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
 
-        similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
-        similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
+            # Get article IDs from the similar articles lists
+            fasttext_article_ids = [str(article[0]['_id']) for article in similar_articles_fasttext]
+            scibert_article_ids = [str(article[0]['_id']) for article in similar_articles_scibert]
 
-        # Get article IDs from the similar articles lists
-        fasttext_article_ids = [str(article[0]['_id']) for article in similar_articles_fasttext]
-        scibert_article_ids = [str(article[0]['_id']) for article in similar_articles_scibert]
+            # Update user_collection with the new article IDs by adding them to the existing lists
+            user_collection.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'fasttext_displayed_articles': {'$each': fasttext_article_ids}, 'scibert_displayed_articles': {'$each': scibert_article_ids}}})
 
-        # Update user_collection with the new article IDs by adding them to the existing lists
-        user_collection.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'fasttext_displayed_articles': {'$each': fasttext_article_ids}, 'scibert_displayed_articles': {'$each': scibert_article_ids}}})
-
-        return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
-    
+            return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
+        elif(flag == 'fasttext'):
+            similar_articles_fasttext = recommend_articles_fasttext(ObjectId(user_id))
+            fasttext_article_ids = [str(article[0]['_id']) for article in similar_articles_fasttext]
+            user_collection.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'fasttext_displayed_articles': {'$each': fasttext_article_ids}}})
+            return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
+        elif(flag == 'scibert'):
+            similar_articles_scibert = recommend_articles_scibert(ObjectId(user_id))
+            scibert_article_ids = [str(article[0]['_id']) for article in similar_articles_scibert]
+            user_collection.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'scibert_displayed_articles': {'$each': scibert_article_ids}}})
+            return render_template('dashboard.html', user=user, similar_articles_fasttext=similar_articles_fasttext, similar_articles_scibert=similar_articles_scibert)
     # User is not logged in, redirect to login page
     return redirect('/login')
 
