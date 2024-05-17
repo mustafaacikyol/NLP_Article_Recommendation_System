@@ -6,6 +6,9 @@ import numpy as np
 from math import ceil
 import re  # Import the re module for regular expressions
 from bson.regex import Regex
+import fasttext
+from transformers import AutoTokenizer, AutoModel
+import torch
 
 app = Flask(__name__)
 app.secret_key = '123456789'  # Set a secret key for session management
@@ -16,6 +19,12 @@ db = client['article_recommendation']
 user_collection = db['user']
 article_collection = db["article"]
 
+fasttext_model = fasttext.load_model('../../cc.en.300.bin')
+
+# Load the SciBERT pre-trained model and tokenizer
+model_name = "allenai/scibert_scivocab_uncased"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+scibert_model = AutoModel.from_pretrained(model_name)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -55,6 +64,10 @@ def signup():
         username = request.form['username']
         password = request.form['password']
 
+        # Generate FastText vector embeddings for academic interests and calculate the average
+        fasttext_vector_embedding = generate_fasttext_embeddings(academic_interests)
+        scibert_vector_embedding = generate_scibert_embeddings(academic_interests)
+
         # Create a new user document
         new_user = {
             'name': name,
@@ -65,7 +78,9 @@ def signup():
             'academic_interests': academic_interests,
             'email' : email,
             'username': username,
-            'password': password
+            'password': password,
+            'fasttext_vector_embedding': fasttext_vector_embedding.tolist(),
+            'scibert_vector_embedding' : scibert_vector_embedding.tolist()
         }
 
         # Insert the user document into MongoDB
@@ -77,6 +92,25 @@ def signup():
             feedback = "Failed to register user!"
 
     return render_template('signup.html', feedback = feedback)
+
+def generate_fasttext_embeddings(interests):
+    embeddings = []
+    for interest in interests:
+        embeddings.append(fasttext_model.get_sentence_vector(interest))
+    return np.mean(embeddings, axis=0)
+
+# Function to generate SciBERT vector embeddings for a list of interests
+def generate_scibert_embeddings(interests):
+    embeddings = []
+    for interest in interests:
+        # Tokenize the interest and convert it to input IDs
+        input_ids = tokenizer.encode(interest, add_special_tokens=True, truncation=True, max_length=128, return_tensors="pt")
+        with torch.no_grad():
+            # Get the model output for the input IDs
+            outputs = scibert_model(input_ids)
+            # Extract the output embeddings
+            embeddings.append(torch.mean(outputs.last_hidden_state, dim=1).squeeze().numpy())
+    return np.mean(embeddings, axis=0)
 
 @app.route('/update_fasttext_liked_articles', methods=['POST'])
 def update_fasttext_liked_articles():
@@ -192,7 +226,6 @@ def find_most_similar_articles(user_embedding, collection_name, embedding_field,
     similar_articles.sort(key=lambda x: x[1], reverse=True)
     return similar_articles[:5]
 
-
 # Function to recommend articles to user based on FastText vector
 def recommend_articles_fasttext(user_id):
     user = user_collection.find_one({"_id": user_id})
@@ -215,7 +248,6 @@ def recommend_articles_scibert(user_id):
             return similar_articles
     return []
 
-    
 @app.route('/profile-information', methods=['GET','POST'])
 def profile_information():
     # Check if user is logged in
