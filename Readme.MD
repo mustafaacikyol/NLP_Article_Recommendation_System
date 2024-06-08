@@ -2,7 +2,7 @@
 The project is a system that provides personalized article recommendations based on users' interests and reading history. The main goal of the project is to direct users to the right articles of their interest.  
 #### Project Requirements
 1. Data Source
-A ready-made article dataset will be used. Example ready-made dataset: Inspec and Krapivin2009.  
+A ready-made article dataset will be used. Example ready-made dataset: Inspec and Krapivin2009.    
 2. Preprocessing and Data Analysis
 Pre-processing of articles with NLP (Natural Language Processing) techniques.  
 Text preprocessing with NLP tools: It will be done in Python using either NLTK or spaCy libraries.  
@@ -27,4 +27,6 @@ Frontend Development: There are no language restrictions for a user-friendly web
 Search Functions: A search bar should be created where users can easily find the articles they are looking for(keywords).  
 6. Technologies to be used
 Since the application will be a web project, you need to use a suitable database to synchronize the data and run the algorithms. The example database is MongoDB.  
-Artificial Intelligence and Machine Learning: Python
+Artificial Intelligence and Machine Learning: Python  
+
+I use Krapivin dataset in this project. For data preprocessing i use spaCy library.
